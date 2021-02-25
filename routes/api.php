@@ -14,13 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
-Route::post('store_student', 'App\Http\Controllers\StudentController@addStudent');
-Route::get('students', 'App\Http\Controllers\StudentController@allStudents');
-Route::get('student/details', 'App\Http\Controllers\StudentController@getStudent');
-Route::get('student/auth', 'App\Http\Controllers\StudentController@getStudentWithSpecifiedEmailAndPassword');
-Route::get('allOffers', 'App\Http\Controllers\OfferController@allOffers');
-Route::get('store_offer', 'App\Http\Controllers\OfferController@addOffer');
-Route::get('news', 'App\Http\Controllers\NewsController@getAllNews');
+});*/
+Route::get('foods', 'App\Http\Controllers\FoodController@getAllFoods');
+Route::get('foods/{id}', 'App\Http\Controllers\FoodController@getFood');
+Route::get('foods/store_food', 'App\Http\Controllers\FoodController@addFood');
+Route::get('foods/delete_food/{id}', 'App\Http\Controllers\FoodController@deleteFood');
+Route::put('foods/update/{id}', 'App\Http\Controllers\FoodController@updateFood');
+
