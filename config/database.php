@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Str;
 
-$url = parse_url(getenv("DATABASE_URL"));
+$url = parse_url(getenv("postgres://rmwjmewliqsbsn:696db3dc7b505327219359c5e87bb64ff563e5fef3a5e27a26541f81b2a155a2@ec2-3-87-180-131.compute-1.amazonaws.com:5432/dfbpc4t0v0a1i6"));
 $host = $url["host"];
 $username = $url["user"];
 $password = $url["pass"];
