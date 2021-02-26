@@ -11,16 +11,8 @@ class Customer extends Model
 
     public $timestanmps = false;
 
-    protected $fillable = [
-        'name',
-        'table_number'
-    ];
-
     public function orders() {
         return $this->hasMany(Order::class);
     }
 
-    public function payOrder(Order $order) {
-
-    }
 }
