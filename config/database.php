@@ -1,6 +1,11 @@
 <?php
 use Illuminate\Support\Str;
-$DATABASE_URL = parse_url('postgres://rmwjmewliqsbsn:696db3dc7b505327219359c5e87bb64ff563e5fef3a5e27a26541f81b2a155a2@ec2-3-87-180-131.compute-1.amazonaws.com:5432/dfbpc4t0v0a1i6');
+
+$url = parse_url(getenv("DATABASE_URL"));
+$host = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
 
 return [
 
@@ -66,11 +71,11 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             //'url' => env('DATABASE_URL'),
-            'host' => $DATABASE_URL('host'),
-            'port' => $DATABASE_URL('port'),
-            'database' => ltrim($DATABASE_URL['path'], "/"),
-            'username' => $DATABASE_URL('user'),
-            'password' => $DATABASE_URL('password'),
+            'host' => $host,
+            //'port' => $DATABASE_URL('port'),
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
