@@ -42,7 +42,7 @@ Route::put('update_drink/{id}', 'App\Http\Controllers\OrderController@updateOrde
 Route::get('customers', 'App\Http\Controllers\CustomerController@getAllCustomers');
 Route::get('customers/{id}', 'App\Http\Controllers\CustomerController@getCustomer');
 Route::post('store_customer', 'App\Http\Controllers\CustomerController@addCustomer');
-Route::get('delete_customer/{id}', 'App\Http\Controllers\CustomerController@deleteCutomer');
+Route::get('delete_customer/{id}', 'App\Http\Controllers\CustomerController@deleteCustomer');
 Route::put('update_customer/{id}', 'App\Http\Controllers\CustomerController@updateCustomer');
 
 
