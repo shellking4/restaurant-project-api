@@ -19,7 +19,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -69,9 +69,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            //'url' => env('DATABASE_URL'),
             'host' => $host,
-            //'port' => $DATABASE_URL('port'),
             'database' => $database,
             'username' => $username,
             'password' => $password,
