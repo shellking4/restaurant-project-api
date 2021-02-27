@@ -43,8 +43,9 @@ class CustomerController extends Controller
         $stringResponse = new StringResponse();
         $customer = new Customer();
         $customer->name = $request->input('email');
-        $password = Hash::make($request->input('password'));
-        $customer->password = $password;
+        $password = $request->input('password');
+        $hashedPassword = Hash::make($password);
+        $customer->password = $hashedPassword;
         $customer->table_number = $request->input('table_number');
         $customers = Customer::all();
         foreach ($customers as $customerOject) {
