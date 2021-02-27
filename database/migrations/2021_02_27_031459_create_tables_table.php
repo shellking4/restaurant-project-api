@@ -16,6 +16,8 @@ class CreateTablesTable extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('table_number');
+            $table->boolean('isTaken');
         });
     }
 
