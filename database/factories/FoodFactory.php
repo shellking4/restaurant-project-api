@@ -24,7 +24,7 @@ class FoodFactory extends Factory
         return [
             'name' => $this->faker->text(20),
             'description' => $this->faker->text,
-            'image' => $this->faker->image('public/fdImages', 400, 300, null, false),
+            'image' => $this->faker->image('https://apiformobileapp.herokuapp.com/public/fdImages', 400, 300, null, false),
             'price' => $this->faker->randomFloat()
         ];
     }
