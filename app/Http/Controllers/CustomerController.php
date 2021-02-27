@@ -13,15 +13,15 @@ class CustomerController extends Controller
     public function getAllCustomers()
     {
         $customers = Customer::all();
-        $stringResponse = new StringResponse();
-        if (!empty($customers)) {
+       /* $stringResponse = new StringResponse();
+        if (!empty($customers)) {*/
             echo json_encode($customers);
             return true;
-        }
+       /* }
         $content = Constants::$ON_EMPTY_RETRIEVAL;
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
-        return false;
+        return false;*/
     }
 
     public function getCustomer(int $id): bool

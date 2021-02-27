@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class Constants
 {
-    public static string $ADD_SUCCESS_RESPONSE = "DONE ADDING OBJECT !";
+    public static string $ADD_SUCCESS_RESPONSE = "DONE ADDING OBJECT";
     public static string $ADD_FAILURE_RESPONSE = "CANNOT ADD ! OBJECT ALREADY EXISTS !";
     public static string $DELETE_SUCCESS_RESPONSE = "OBJECT SUCCESSFULLY DELETED";
     public static string $DELETE_FAILURE_RESPONSE = "OBJECT YOU WANNA DELETE DOESN'T EXIST";
