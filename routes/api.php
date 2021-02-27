@@ -41,8 +41,10 @@ Route::put('update_drink/{id}', 'App\Http\Controllers\OrderController@updateOrde
 //Customer Endpoints
 Route::get('customers', 'App\Http\Controllers\CustomerController@getAllCustomers');
 Route::get('customers/{id}', 'App\Http\Controllers\CustomerController@getCustomer');
-Route::post('store_customer', 'App\Http\Controllers\CustomerController@addCustomer');
+Route::post('register', 'App\Http\Controllers\CustomerController@register');
 Route::get('delete_customer/{id}', 'App\Http\Controllers\CustomerController@deleteCustomer');
 Route::put('update_customer/{id}', 'App\Http\Controllers\CustomerController@updateCustomer');
+Route::put('login', 'App\Http\Controllers\CustomerController@login');
+
 
 

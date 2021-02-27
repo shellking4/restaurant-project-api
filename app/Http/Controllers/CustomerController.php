@@ -6,21 +6,22 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Utils\Constants;
 use App\Utils\StringResponse;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
     public function getAllCustomers()
     {
         $customers = Customer::all();
-        /*$stringResponse = new StringResponse();
-        if (!empty($customers)) {*/
+        $stringResponse = new StringResponse();
+        if (!empty($customers)) {
             echo json_encode($customers);
-            //return true;
-        /*}
+            return true;
+        }
         $content = Constants::$ON_EMPTY_RETRIEVAL;
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
-        return false;*/
+        return false;
     }
 
     public function getCustomer(int $id): bool
@@ -37,15 +38,17 @@ class CustomerController extends Controller
         return false;
     }
 
-    public function addCustomer(Request $request): bool
+    public function register(Request $request): bool
     {
         $stringResponse = new StringResponse();
         $customer = new Customer();
-        $customer->name = $request->input('name');
+        $customer->name = $request->input('email');
+        $password = Hash::make($request->input('password'));
+        $customer->password = $password;
         $customer->table_number = $request->input('table_number');
         $customers = Customer::all();
         foreach ($customers as $customerOject) {
-            if ($customer->name === $customerOject->name) {
+            if ($customer->email === $customerOject->email) {
                 $content = Constants::$ADD_FAILURE_RESPONSE;
                 $stringResponse->content = $content;
                 echo json_encode($stringResponse);
@@ -76,13 +79,14 @@ class CustomerController extends Controller
         return false;
     }
 
-    public function updatDrink(int $id, Request $request)
+    public function updateCustomer(int $id, Request $request)
     {
         $stringResponse = new StringResponse();
         $customer = Customer::find($id);
         if ($customer != null) {
-            $customer->name = $request->input('name');
-            $customer->description = $request->input('table_number');
+            $customer->email = $request->input('email');
+            $customer->password = $request->input('password');
+            $customer->table_number = $request->input('table_number');
             $customer->save();
             $content = Constants::$UPDATE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
@@ -93,5 +97,27 @@ class CustomerController extends Controller
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
         return false;
+    }
+
+    public function login(Request $request): bool {
+        $stringResponse = new StringResponse();
+        $customer = new Customer();
+        $customer->name = $request->input('email');
+        $password = Hash::make($request->input('password'));
+        $customer->password = $password;
+        $customer->table_number = $request->input('table_number');
+        $customers = Customer::all();
+        foreach ($customers as $customerOject) {
+            if ($customer->email === $customerOject->email && $customer->password === $customerOject->password) {
+                $content = Constants::$ON_LOGIN_SUCCESSFUL;
+                $stringResponse->content = $content;
+                echo json_encode($stringResponse);
+                return true;
+            }
+        }
+        $content = Constants::$ON_LOGIN_UNSUCCESSFUL;
+        $stringResponse->content = $content;
+        echo json_encode($stringResponse);
+        return true;
     }
 }

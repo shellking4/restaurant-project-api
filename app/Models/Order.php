@@ -13,4 +13,13 @@ class Order extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function drinks() {
+        return $this->hasMany(Drink::class);
+    }
+
+    public function foods()
+    {
+        return $this->hasMany(Food::class);
+    }
 }
