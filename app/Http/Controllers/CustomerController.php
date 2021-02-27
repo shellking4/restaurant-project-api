@@ -16,7 +16,7 @@ class CustomerController extends Controller
        /* $stringResponse = new StringResponse();
         if (!empty($customers)) {*/
             echo json_encode($customers);
-            return true;
+            //return true;
        /* }
         $content = Constants::$ON_EMPTY_RETRIEVAL;
         $stringResponse->content = $content;
