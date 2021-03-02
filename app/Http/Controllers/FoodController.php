@@ -9,37 +9,28 @@ use App\Utils\StringResponse;
 
 class FoodController extends Controller
 {
-    /*public function getAllFoods(): bool
+    public function getAllFoods()
     {
         $stringResponse = new StringResponse();
         $foods = Food::all();
         if (!empty($foods)) {
             echo json_encode($foods);
-            return true;
         }
         $content = Constants::$ON_EMPTY_RETRIEVAL;
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
-        return false;
-    }*/
-
-    public function getAllFoods() {
-        $foods = Food::all();
-        echo json_encode($foods);
     }
 
-    public function getFood(int $id): bool
+    public function getFood(int $id)
     {
         $stringResponse = new StringResponse();
         $food = Food::all()->find($id);
         if ($food != null) {
             echo json_encode($food);
-            return true;
         }
         $content = Constants::$ON_NULL_FETCHED;
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
-        return false;
     }
 
     public function addFood(Request $request): bool {
@@ -65,7 +56,7 @@ class FoodController extends Controller
         return true;
     }
 
-    public function deleteFood(int $id): bool {
+    public function deleteFood(int $id) {
         $stringResponse = new StringResponse();
         $food = Food::all()->find($id);
         if ($food != null) {
@@ -73,15 +64,14 @@ class FoodController extends Controller
             $content = Constants::$DELETE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$DELETE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$DELETE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
-    public function updateFood(int $id, Request $request): bool {
+    public function updateFood(int $id, Request $request) {
         $stringResponse = new StringResponse();
         $food = Food::find($id);
         if ($food != null) {
@@ -93,12 +83,12 @@ class FoodController extends Controller
             $content = Constants::$UPDATE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$UPDATE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$UPDATE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
+
     }
 
 }

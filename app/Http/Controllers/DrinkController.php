@@ -10,32 +10,30 @@ use App\Utils\StringResponse;
 class DrinkController extends Controller
 {
 
-    public function getAllDrinks(): bool
+    public function getAllDrinks()
     {
         $stringResponse = new StringResponse();
         $drinks = Drink::all();
         if (!empty($drinks)) {
             echo json_encode($drinks);
-            return true;
+        } else {
+            $content = Constants::$ON_EMPTY_RETRIEVAL;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$ON_EMPTY_RETRIEVAL;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
-    public function getDrink(int $id): bool
+    public function getDrink(int $id)
     {
         $stringResponse = new StringResponse();
         $drink = Drink::all()->find($id);
         if ($drink != null) {
             echo json_encode($drink);
-            return true;
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$ON_NULL_FETCHED;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
     public function addDrink(Request $request): bool
@@ -62,7 +60,7 @@ class DrinkController extends Controller
         return true;
     }
 
-    public function deleteDrink(int $id): bool
+    public function deleteDrink(int $id)
     {
         $stringResponse = new StringResponse();
         $food = Drink::all()->find($id);
@@ -71,12 +69,11 @@ class DrinkController extends Controller
             $content = Constants::$DELETE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$DELETE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$DELETE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
     public function updatDrink(int $id, Request $request)
@@ -92,12 +89,11 @@ class DrinkController extends Controller
             $content = Constants::$UPDATE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$UPDATE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$UPDATE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
 }
