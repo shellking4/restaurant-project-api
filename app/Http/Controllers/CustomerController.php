@@ -13,29 +13,27 @@ class CustomerController extends Controller
     public function getAllCustomers()
     {
         $customers = Customer::all();
-       /* $stringResponse = new StringResponse();
-        if (!empty($customers)) {*/
+        $stringResponse = new StringResponse();
+        if (!empty($customers)) {
             echo json_encode($customers);
-            //return true;
-       /* }
-        $content = Constants::$ON_EMPTY_RETRIEVAL;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;*/
+        } else {
+            $content = Constants::$ON_EMPTY_RETRIEVAL;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        }
     }
 
-    public function getCustomer(int $id): bool
+    public function getCustomer(int $id)
     {
         $stringResponse = new StringResponse();
         $customer = Customer::all()->find($id);
         if ($customer != null) {
             echo json_encode($customer);
-            return true;
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$ON_NULL_FETCHED;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
     public function register(Request $request): bool
@@ -63,7 +61,7 @@ class CustomerController extends Controller
         return true;
     }
 
-    public function deleteCustomer(int $id): bool
+    public function deleteCustomer(int $id)
     {
         $stringResponse = new StringResponse();
         $food = Customer::all()->find($id);
@@ -72,12 +70,11 @@ class CustomerController extends Controller
             $content = Constants::$DELETE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$DELETE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$DELETE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
     public function updateCustomer(int $id, Request $request)
@@ -92,12 +89,11 @@ class CustomerController extends Controller
             $content = Constants::$UPDATE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-            return true;
+        } else {
+            $content = Constants::$UPDATE_FAILURE_RESPONSE;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$UPDATE_FAILURE_RESPONSE;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
-        return false;
     }
 
     public function login(Request $request): bool {
@@ -119,6 +115,6 @@ class CustomerController extends Controller
         $content = Constants::$ON_LOGIN_UNSUCCESSFUL;
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
-        return true;
+        return false;
     }
 }

@@ -33,7 +33,7 @@ Route::put('update_drink/{id}', 'App\Http\Controllers\DrinkController@updateDrin
 
 //Order Endpoints
 Route::get('orders', 'App\Http\Controllers\OrderController@getAllOrders');
-Route::get('drinks/{id}', 'App\Http\Controllers\OrderController@getOrder');
+Route::get('orders/{id}', 'App\Http\Controllers\OrderController@getOrder');
 Route::post('store_drink', 'App\Http\Controllers\OrderController@addOrder');
 Route::get('delete_drink/{id}', 'App\Http\Controllers\OrderController@deleteOrder');
 Route::put('update_drink/{id}', 'App\Http\Controllers\OrderController@updateOrder');
