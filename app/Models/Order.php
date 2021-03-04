@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

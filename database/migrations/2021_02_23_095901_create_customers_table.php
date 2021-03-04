@@ -17,8 +17,6 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->string('password');
-            $table->integer('table_number')->unsigned()->nullable();
-            $table->timestamps();
         });
     }
 

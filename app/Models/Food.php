@@ -9,4 +9,6 @@ class Food extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
 }

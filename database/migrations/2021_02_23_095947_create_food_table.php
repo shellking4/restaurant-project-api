@@ -19,7 +19,6 @@ class CreateFoodTable extends Migration
             $table->mediumText('description')->nullable();
             $table->string('image')->nullable();
             $table->float('price');
-            $table->timestamps();
         });
     }
 

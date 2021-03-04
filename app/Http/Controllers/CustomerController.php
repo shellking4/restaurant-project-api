@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Drink;
+use App\Models\Food;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Utils\Constants;
 use App\Utils\StringResponse;
@@ -23,17 +26,22 @@ class CustomerController extends Controller
         }
     }
 
-    public function getCustomer(int $id)
+    public function getCustomer(Request $request)
     {
         $stringResponse = new StringResponse();
-        $customer = Customer::all()->find($id);
-        if ($customer != null) {
-            echo json_encode($customer);
-        } else {
-            $content = Constants::$ON_NULL_FETCHED;
-            $stringResponse->content = $content;
-            echo json_encode($stringResponse);
+        $customer = new Customer();
+        $customer->email = $request->input('email');
+        $customers = Customer::all();
+        foreach ($customers as $customerOject) {
+            if ($customer->email == $customerOject->email) {
+                echo json_encode($customerOject);
+                return true;
+            }
         }
+        $content = Constants::$ON_NULL_FETCHED;
+        $stringResponse->content = $content;
+        echo json_encode($stringResponse);
+        return false;
     }
 
     public function register(Request $request): bool
@@ -44,14 +52,15 @@ class CustomerController extends Controller
         $password = $request->input('password');
         $hashedPassword = Hash::make($password);
         $customer->password = $hashedPassword;
-        $customer->table_number = $request->input('table_number');
         $customers = Customer::all();
-        foreach ($customers as $customerOject) {
-            if ($customer->email === $customerOject->email) {
-                $content = Constants::$ADD_FAILURE_RESPONSE;
-                $stringResponse->content = $content;
-                echo json_encode($stringResponse);
-                return false;
+        if (!empty($customers)) {
+            foreach ($customers as $customerOject) {
+                if ($customer->email === $customerOject->email) {
+                    $content = Constants::$ADD_FAILURE_RESPONSE;
+                    $stringResponse->content = $content;
+                    echo json_encode($stringResponse);
+                    return false;
+                }
             }
         }
         $customer->save();
@@ -99,7 +108,7 @@ class CustomerController extends Controller
     public function login(Request $request): bool {
         $stringResponse = new StringResponse();
         $customer = new Customer();
-        $customer->name = $request->input('email');
+        $customer->email = $request->input('email');
         $password = Hash::make($request->input('password'));
         $customer->password = $password;
         $customer->table_number = $request->input('table_number');
@@ -116,5 +125,121 @@ class CustomerController extends Controller
         $stringResponse->content = $content;
         echo json_encode($stringResponse);
         return false;
+    }
+
+    public function getCustomerOrders(int $id) {
+        $stringResponse = new StringResponse();
+        $customer = Customer::find($id);
+        if ($customer != null) {
+            $orders = $customer->orders;
+            if (!empty($orders)) {
+                echo json_encode($orders);
+            } else {
+                $content = Constants::$ON_EMPTY_RETRIEVAL;
+                $stringResponse->content = $content;
+                echo json_encode($stringResponse);
+            }
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        }
+    }
+
+    public function getOrders() {
+        $orders = Order::all();
+        $stringResponse = new StringResponse();
+        if (!empty($orders)) {
+            echo json_encode($orders);
+        } else {
+            $content = Constants::$ON_EMPTY_RETRIEVAL;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        }
+    }
+
+    public function getCustomerOrder(int $customerId, \DateTime $orderDate) {
+        $stringResponse = new StringResponse();
+        $customer = Customer::find($customerId);
+        if ($customer != null) {
+            $orders = $customer->orders;
+            if (!empty($orders)) {
+                foreach ($orders as $order) {
+                    if ($order->orderDate === $orderDate) {
+                        echo json_encode($order);
+                        return true;
+                    }
+                }
+                $content = Constants::$ON_NULL_FETCHED;
+                $stringResponse->content = $content;
+                echo json_encode($stringResponse);
+                return false;
+            } else {
+                $content = Constants::$ON_EMPTY_RETRIEVAL;
+                $stringResponse->content = $content;
+                echo json_encode($stringResponse);
+                return false;
+            }
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        }
+    }
+
+    public function getOrder(\DateTime $orderDate) {
+        $orders = Order::all();
+        $stringResponse = new StringResponse();
+        if (!empty($orders)) {
+            foreach ($orders as $order) {
+                if ($order->orderDate === $orderDate) {
+                    echo json_encode($orders);
+                    return true;
+                }
+            }
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
+        }
+    }
+
+    public function addOrder(int $id, Request $request) {
+        $stringResponse = new StringResponse();
+        $order = new Order();
+        $customer = Customer::find($id);
+        $order->orderDate = $request->input('orderDate');
+        $foodIds = $request->input('foods');
+        $drinkIds = $request->input('drinks');
+        $orders = $customer->orders;
+        foreach ($orders as $orderItem) {
+            if ($order->orderDate === $orderItem->orderDate) {
+                $content = Constants::$ADD_FAILURE_RESPONSE;
+                $stringResponse->content = $content;
+                echo json_encode($stringResponse);
+                return false;
+            }
+        }
+        if (!empty($foodIds)) {
+            foreach ($foodIds as $foodId) {
+                $id = (int)$foodId;
+                $food = Food::find($id);
+                $order->foods[] = $food;
+            }
+            foreach ($drinkIds as $drinkId) {
+                $id = (int)$drinkId;
+                $drink = Drink::find($id);
+                $order->drinks[] = $drink;
+            }
+            return true;
+        }
+        $customer->orders()->save($order);
+        $content = Constants::$ADD_SUCCESS_RESPONSE;
+        $stringResponse->content = $content;
+        echo json_encode($stringResponse);
+        return true;
     }
 }

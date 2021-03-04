@@ -9,4 +9,7 @@ class Drink extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+
 }
