@@ -9,6 +9,8 @@ class Drink extends Model
 {
     use HasFactory;
 
+    protected $table = 'drinks';
+
     public $timestamps = false;
 
 

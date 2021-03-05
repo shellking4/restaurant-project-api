@@ -34,11 +34,11 @@ Route::put('update_drink/{id}', 'App\Http\Controllers\DrinkController@updateDrin
 
 //Customer Endpoints
 Route::get('customers', 'App\Http\Controllers\CustomerController@getAllCustomers');
-Route::get('customer', 'App\Http\Controllers\CustomerController@getCustomer');
+Route::get('customer/{email}', 'App\Http\Controllers\CustomerController@getCustomer');
 Route::post('register', 'App\Http\Controllers\CustomerController@register');
 Route::get('delete_customer/{id}', 'App\Http\Controllers\CustomerController@deleteCustomer');
 Route::put('update_customer/{id}', 'App\Http\Controllers\CustomerController@updateCustomer');
-Route::put('login', 'App\Http\Controllers\CustomerController@login');
+Route::post('login', 'App\Http\Controllers\CustomerController@login');
 Route::get('customers/store_order/{id}', 'App\Http\Controllers\CustomerController@addOrder');
 Route::get('orders', 'App\Http\Controllers\OrderController@getOrders');
 Route::get('orders/{id}', 'App\Http\Controllers\OrderController@getOrder');

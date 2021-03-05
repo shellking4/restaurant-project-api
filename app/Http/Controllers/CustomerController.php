@@ -32,10 +32,12 @@ class CustomerController extends Controller
         $customer = new Customer();
         $customer->email = $request->input('email');
         $customers = Customer::all();
-        foreach ($customers as $customerOject) {
-            if ($customer->email == $customerOject->email) {
-                echo json_encode($customerOject);
-                return true;
+        if (!empty($customers)) {
+            foreach ($customers as $customerOject) {
+                if ($customer->email == $customerOject->email) {
+                    echo json_encode($customerOject);
+                    return true;
+                }
             }
         }
         $content = Constants::$ON_NULL_FETCHED;
@@ -70,20 +72,21 @@ class CustomerController extends Controller
         return true;
     }
 
-    public function deleteCustomer(int $id)
+    public function deleteCustomer(int $id): bool
     {
         $stringResponse = new StringResponse();
-        $food = Customer::all()->find($id);
-        if ($food != null) {
-            $food->delete();
+        $customer = Customer::find($id);
+        if ($customer != null) {
+            $customer->delete();
             $content = Constants::$DELETE_SUCCESS_RESPONSE;
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
-        } else {
-            $content = Constants::$DELETE_FAILURE_RESPONSE;
-            $stringResponse->content = $content;
-            echo json_encode($stringResponse);
+            return true;
         }
+        $content = Constants::$DELETE_FAILURE_RESPONSE;
+        $stringResponse->content = $content;
+        echo json_encode($stringResponse);
+        return false;
     }
 
     public function updateCustomer(int $id, Request $request)
@@ -107,18 +110,17 @@ class CustomerController extends Controller
 
     public function login(Request $request): bool {
         $stringResponse = new StringResponse();
-        $customer = new Customer();
-        $customer->email = $request->input('email');
-        $password = Hash::make($request->input('password'));
-        $customer->password = $password;
-        $customer->table_number = $request->input('table_number');
+        $email = $request->input('email');
+        $password = $request->input('password');
         $customers = Customer::all();
-        foreach ($customers as $customerOject) {
-            if ($customer->email === $customerOject->email && $customer->password === $customerOject->password) {
-                $content = Constants::$ON_LOGIN_SUCCESSFUL;
-                $stringResponse->content = $content;
-                echo json_encode($stringResponse);
-                return true;
+        if (!empty($customers)) {
+            foreach ($customers as $customerOject) {
+                if ($email == $customerOject->email && Hash::check($password, $customerOject->password)) {
+                    $content = Constants::$ON_LOGIN_SUCCESSFUL;
+                    $stringResponse->content = $content;
+                    echo json_encode($stringResponse);
+                    return true;
+                }
             }
         }
         $content = Constants::$ON_LOGIN_UNSUCCESSFUL;
