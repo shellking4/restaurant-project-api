@@ -21,11 +21,14 @@ class FoodFactory extends Factory
      */
     public function definition()
     {
+        $imageDir = 'public/fdImages/';
+        $images = glob($imageDir . '*.{jpeg, jpg, png, gif}', GLOB_BRACE);
+        $randomImage = $images[array_rand($images)];
         return [
             'name' => $this->faker->text(20),
             'description' => $this->faker->text,
-            'image' => $this->faker->image('https://apiformobileapp.herokuapp.com/public/fdImages', 400, 300, null, false),
-            'price' => $this->faker->randomFloat()
+            'image' => $this->faker->image(),
+            'price' => $this->faker->randomFloat(4)
         ];
     }
 }

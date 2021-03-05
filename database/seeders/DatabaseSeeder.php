@@ -17,12 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
-                ->times(4)
-                ->create();
-
         Drink::factory()
-                    ->times(100)
+                    ->times(200)
                     ->create();
 
         Food::factory()

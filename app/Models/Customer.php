@@ -9,8 +9,6 @@ class Customer extends Model
 {
     use HasFactory;
 
-    public $timestanmps = false;
-
     public function orders() {
         return $this->hasMany(Order::class);
     }

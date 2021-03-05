@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
 //Food Endpoints
 Route::get('foods', 'App\Http\Controllers\FoodController@getAllFoods');
 Route::get('foods/{id}', 'App\Http\Controllers\FoodController@getFood');
@@ -31,20 +32,21 @@ Route::post('store_drink', 'App\Http\Controllers\DrinkController@addDrink');
 Route::get('delete_drink/{id}', 'App\Http\Controllers\DrinkController@deleteDrink');
 Route::put('update_drink/{id}', 'App\Http\Controllers\DrinkController@updateDrink');
 
-//Order Endpoints
-Route::get('orders', 'App\Http\Controllers\OrderController@getAllOrders');
-Route::get('drinks/{id}', 'App\Http\Controllers\OrderController@getOrder');
-Route::post('store_drink', 'App\Http\Controllers\OrderController@addOrder');
-Route::get('delete_drink/{id}', 'App\Http\Controllers\OrderController@deleteOrder');
-Route::put('update_drink/{id}', 'App\Http\Controllers\OrderController@updateOrder');
-
 //Customer Endpoints
 Route::get('customers', 'App\Http\Controllers\CustomerController@getAllCustomers');
-Route::get('customers/{id}', 'App\Http\Controllers\CustomerController@getCustomer');
+Route::get('customer/{email}', 'App\Http\Controllers\CustomerController@getCustomer');
 Route::post('register', 'App\Http\Controllers\CustomerController@register');
 Route::get('delete_customer/{id}', 'App\Http\Controllers\CustomerController@deleteCustomer');
 Route::put('update_customer/{id}', 'App\Http\Controllers\CustomerController@updateCustomer');
-Route::put('login', 'App\Http\Controllers\CustomerController@login');
+Route::post('login', 'App\Http\Controllers\CustomerController@login');
+Route::get('customers/store_order/{id}', 'App\Http\Controllers\CustomerController@addOrder');
+Route::get('orders', 'App\Http\Controllers\OrderController@getOrders');
+Route::get('orders/{id}', 'App\Http\Controllers\OrderController@getOrder');
+Route::get('customers/orders/{id}', 'App\Http\Controllers\OrderController@getCustomerOrders');
+Route::get('customers/order/{id}', 'App\Http\Controllers\OrderController@getCustomerOrder');
+Route::get('customers/delete_order/{id}', 'App\Http\Controllers\OrderController@deleteOrder');
+Route::put('customers/update_order/{id}', 'App\Http\Controllers\OrderController@updateOrder');
+
 
 
 

@@ -22,8 +22,8 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'table_number' => $this->faker->randomNumber(8, true)
+            'email' => $this->faker->email,
+            'password' => $this->faker->password(8, true)
         ];
     }
 }

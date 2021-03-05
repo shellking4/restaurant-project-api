@@ -15,10 +15,11 @@ class FoodController extends Controller
         $foods = Food::all();
         if (!empty($foods)) {
             echo json_encode($foods);
+        } else {
+            $content = Constants::$ON_EMPTY_RETRIEVAL;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$ON_EMPTY_RETRIEVAL;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
     }
 
     public function getFood(int $id)
@@ -27,10 +28,11 @@ class FoodController extends Controller
         $food = Food::all()->find($id);
         if ($food != null) {
             echo json_encode($food);
+        } else {
+            $content = Constants::$ON_NULL_FETCHED;
+            $stringResponse->content = $content;
+            echo json_encode($stringResponse);
         }
-        $content = Constants::$ON_NULL_FETCHED;
-        $stringResponse->content = $content;
-        echo json_encode($stringResponse);
     }
 
     public function addFood(Request $request): bool {
@@ -88,7 +90,6 @@ class FoodController extends Controller
             $stringResponse->content = $content;
             echo json_encode($stringResponse);
         }
-
     }
 
 }
