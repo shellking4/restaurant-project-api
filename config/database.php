@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Str;
+
 $url = parse_url(getenv("DATABASE_URL"));
 $host = $url["host"];
 $username = $url["user"];
@@ -69,7 +70,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => $url,
+            //'url' => $url,
             'host' => $host,
             'port' => env('DB_PORT', '5432'),
             'database' => $database,
